@@ -1,8 +1,8 @@
 x1 = 500
 y1 = 500 
 angleTank1 = 180
-x2 = 30
-y2 = 30
+x2 = 70
+y2 = 50
 angleTank2 = 0
 T1UP = False
 T1DOWN = False
@@ -30,56 +30,75 @@ may2 = 1
 Distance1 = 0
 Distance2 = 0
 Answer2 = 0
-hp = 3
-hp2 = 3
+hp = 4
+hp2 = 4
 
 def setup():
     size(600,550)
     background(34, 139, 34)
 def draw():
-    global x1, y1, angleTank1, angleTank2, x2, y2, tanka, tanke,T1UP,T1DOWN,T1LEFT,T1RIGHT,T2UP,T2DOWN,T2LEFT,T2RIGHT,T1SHOOT,T2SHOOT,boom,ldf,ldf2,xBullet,yBullet,xBullet2,yBullet2,ule,ula,may1,may2,Distance1,Distance1,hp, hp2
+    global x1, y1, angleTank1, angleTank2, x2, y2, tanka,tanka1,tanka2,tanka3,tanka4,tanke,tanke1,tanke2,tanke3,tanke4,T1UP,T1DOWN,T1LEFT,T1RIGHT,T2UP,T2DOWN,T2LEFT,T2RIGHT,T1SHOOT,T2SHOOT,boom,ldf,ldf2,xBullet,yBullet,xBullet2,yBullet2,ule,ula,may1,may2,Distance1,Distance1,hp, hp2
     background(34, 139, 34)
-    text(hp,50,50)
-    text(hp2,50,70)
-    tank(x1,y1)
+    tank()
     bullet1()    
     tank2()
     bullet2() 
-    if T1UP:
-        x1 = x1 + cos(radians(angleTank1))
-        y1 = y1 + sin(radians(angleTank1))
-    if T1DOWN:
-        x1 = x1 - cos(radians(angleTank1))
-        y1 = y1 - sin(radians(angleTank1))
-    if T1RIGHT:
-        angleTank1 = angleTank1 + 0.8
-    if T1LEFT:
-        angleTank1 = angleTank1 - 0.8
-        
-    if T2UP:
-        x2 = x2 + cos(radians(angleTank2))
-        y2 = y2 + sin(radians(angleTank2))
-    if T2DOWN:
-        x2 = x2 - cos(radians(angleTank2))
-        y2 = y2 - sin(radians(angleTank2))
-    if T2RIGHT:
-        angleTank2 = angleTank2 + 0.8
-    if T2LEFT:
-        angleTank2 = angleTank2 - 0.8
-    if T1SHOOT:
-        ldf = 1
-        boom = 1
-        xBullet = x1
-        yBullet = y1
-        ule = angleTank1
-        T1SHOOT = False
+    if hp2 > 0:
+        if T1UP:
+            x1 = x1 + cos(radians(angleTank1))
+            y1 = y1 + sin(radians(angleTank1))
+            if x1 > 575:
+                x1 = x1 - cos(radians(angleTank1))
+                y1 = y1 - sin(radians(angleTank1))
+            if x1 < 25:
+                x1 = x1 - cos(radians(angleTank1))
+                y1 = y1 - sin(radians(angleTank1))
+            if y1 > 525:
+                x1 = x1 - cos(radians(angleTank1))
+                y1 = y1 - sin(radians(angleTank1))
+            if y1 < 25:
+                x1 = x1 - cos(radians(angleTank1))
+                y1 = y1 - sin(radians(angleTank1))
+    if hp2 > 0:
+        if T1DOWN:
+            x1 = x1 - cos(radians(angleTank1))
+            y1 = y1 - sin(radians(angleTank1))
+    if hp2 > 0:
+        if T1RIGHT:
+            angleTank1 = angleTank1 + 0.8
+    if hp2 > 0:
+        if T1LEFT:
+            angleTank1 = angleTank1 - 0.8
+    if hp > 0:    
+        if T2UP:
+            x2 = x2 + cos(radians(angleTank2))
+            y2 = y2 + sin(radians(angleTank2))
+    if hp > 0:
+        if T2DOWN:
+            x2 = x2 - cos(radians(angleTank2))
+            y2 = y2 - sin(radians(angleTank2))
+    if hp > 0:
+        if T2RIGHT:
+            angleTank2 = angleTank2 + 0.8
+    if hp > 0:
+        if T2LEFT:
+            angleTank2 = angleTank2 - 0.8
+    if hp2 > 0:
+        if T1SHOOT:
+            ldf = 1
+            boom = 1
+            xBullet = x1
+            yBullet = y1
+            ule = angleTank1
+            T1SHOOT = False
     timer1()
-    if T2SHOOT:
-        ldf2 = 1
-        xBullet2 = x2
-        yBullet2 = y2
-        ula = angleTank2
-        T2SHOOT = False
+    if hp > 0:
+        if T2SHOOT:
+            ldf2 = 1
+            xBullet2 = x2
+            yBullet2 = y2
+            ula = angleTank2
+            T2SHOOT = False
     timer2()
     if ldf == 1:
         xBullet = xBullet + cos(radians(ule)) * 28
@@ -94,15 +113,11 @@ def draw():
         hp2 = hp2 - 1
         xBullet2 = x2
         yBullet2 = y2
-        if hp2 < 1:
-            exit()
     if Distance2 < 15:
         ldf  = 0
         hp = hp - 1
         xBullet = x1
         yBullet = y1
-        if hp < 1:
-            exit()
 def keyPressed():
     global x1, y1, angleTank1, angleTank1, x2, y2, tanka, tanke,T1UP,T1DOWN,T1LEFT,T1RIGHT,T2UP,T2DOWN,T2LEFT,T2RIGHT,T1SHOOT,T2SHOOT,boom,ldf,ldf2,xBullet2,yBullet2,may1,may2,time,time2
     
@@ -136,26 +151,52 @@ def keyPressed():
         may2 = 0
         if time2 == -1:
             time2 = 50
-def tank(x, y):
+def tank():
     #ul = ul + 0.1
     push()
-    global tanka,angleTank1 
+    global tanka,tanka1,tanka2,tanka3,tanka4,angleTank1 
     tanka = loadImage("1.png")
-    translate(x, y)
+    tanka1 = loadImage("1r2.png")
+    tanka2 = loadImage("1r3.png")
+    tanka3 = loadImage("1r4.png")
+    tanka4 = loadImage("1r5.png")
+    translate(x1, y1)
     rotate(radians(angleTank1))
     imageMode(CENTER)
-    image(tanka,0,0)
-    ellipse(0,0,30,30) 
+    if hp2 == 4:
+        image(tanka,0,0)
+    if hp2 == 3:
+        image(tanka1,0,0)
+    if hp2 == 2:
+        image(tanka2,0,0)
+    if hp2 == 1:
+        image(tanka3,0,0)
+    if hp2 < 1:
+        image(tanka4,0,0)
+    #ellipse(0,0,30,30) 
     pop() 
 def tank2():
     push()
-    global tanke
+    global tanke,tanke1,tanke2,tanke3,tanke4
     tanke = loadImage("2.png")
+    tanke1 = loadImage("2r2.png")
+    tanke2 = loadImage("2r3.png")
+    tanke3 = loadImage("2r4.png")
+    tanke4 = loadImage("2r5.png")
     imageMode(CENTER)
     translate(x2, y2)
     rotate(radians(angleTank2))
-    image(tanke,0,0)
-    ellipse(0,0,30,30)
+    if hp == 4:
+        image(tanke,0,0)
+    if hp == 3:
+        image(tanke1,0,0)
+    if hp == 2:
+        image(tanke2,0,0)
+    if hp == 1:
+        image(tanke3,0,0)
+    if hp < 1:
+        image(tanke4,0,0)
+    #ellipse(0,0,30,30)
     pop()
 def keyReleased():
     global T1UP,T1DOWN,T1LEFT,T1RIGHT,T2UP,T2DOWN,T2LEFT,T2RIGHT,T1SHOOT,T2SHOOT,boom,xBullet,yBulllet,ldf2,xBullet2,yBullet2,time,time2
