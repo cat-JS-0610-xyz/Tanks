@@ -1,3 +1,4 @@
+add_library("sound")
 x1 = 500
 y1 = 500 
 angleTank1 = 180
@@ -32,17 +33,36 @@ Distance2 = 0
 Answer2 = 0
 hp = 4
 hp2 = 4
-
+winner = 0
+timerExit = 0
 def setup():
+    global boom1, boom2,db
     size(600,550)
     background(34, 139, 34)
+    boom1 = SoundFile(this,"1boom.wav")
+    boom2 = SoundFile(this,"2boom.wav")
+    db = SoundFile(this,"db.wav")
 def draw():
-    global x1, y1, angleTank1, angleTank2, x2, y2, tanka,tanka1,tanka2,tanka3,tanka4,tanke,tanke1,tanke2,tanke3,tanke4,T1UP,T1DOWN,T1LEFT,T1RIGHT,T2UP,T2DOWN,T2LEFT,T2RIGHT,T1SHOOT,T2SHOOT,boom,ldf,ldf2,xBullet,yBullet,xBullet2,yBullet2,ule,ula,may1,may2,Distance1,Distance1,hp, hp2
+    global x1, y1, angleTank1, angleTank2, x2, y2, tanka,tanka1,tanka2,tanka3,tanka4,tanke,tanke1,tanke2,tanke3,tanke4,T1UP,T1DOWN,T1LEFT,T1RIGHT,T2UP,T2DOWN,T2LEFT,T2RIGHT,T1SHOOT,T2SHOOT,boom,ldf,ldf2,xBullet,yBullet,xBullet2,yBullet2,ule,ula,may1,may2,Distance1,Distance1,hp, hp2,boom1, boom2,db,winner,timerExit
     background(34, 139, 34)
     tank()
     bullet1()    
     tank2()
     bullet2() 
+    if hp2 < 1:
+        fill(139, 0, 0)
+        textAlign(CENTER)
+        textSize(28)
+        text(u"Победил",x2,y2-50)
+    if hp < 1:
+        fill(139, 0, 0)
+        textAlign(CENTER)
+        textSize(28)
+        text(u"Победил",x1,y1-50)
+    if winner != 0:
+        timerExit = timerExit + 1
+        if timerExit > 180:
+            exit()
     if hp2 > 0:
         if T1UP:
             x1 = x1 + cos(radians(angleTank1))
@@ -85,6 +105,7 @@ def draw():
             angleTank2 = angleTank2 - 0.8
     if hp2 > 0:
         if T1SHOOT:
+            boom1.play()
             ldf = 1
             boom = 1
             xBullet = x1
@@ -94,6 +115,7 @@ def draw():
     timer1()
     if hp > 0:
         if T2SHOOT:
+            boom2.play()
             ldf2 = 1
             xBullet2 = x2
             yBullet2 = y2
@@ -113,11 +135,15 @@ def draw():
         hp2 = hp2 - 1
         xBullet2 = x2
         yBullet2 = y2
+        if hp2 == 0:
+            db.play()
     if Distance2 < 15:
         ldf  = 0
         hp = hp - 1
         xBullet = x1
         yBullet = y1
+        if hp == 0:
+            db.play()
 def keyPressed():
     global x1, y1, angleTank1, angleTank1, x2, y2, tanka, tanke,T1UP,T1DOWN,T1LEFT,T1RIGHT,T2UP,T2DOWN,T2LEFT,T2RIGHT,T1SHOOT,T2SHOOT,boom,ldf,ldf2,xBullet2,yBullet2,may1,may2,time,time2
     
@@ -143,14 +169,14 @@ def keyPressed():
             T1SHOOT = True
         may1 = 0
         if time == -1:
-            time = 50
+            time = 80
             
     if key == "e":
         if may2 == 1:
             T2SHOOT = True
         may2 = 0
         if time2 == -1:
-            time2 = 50
+            time2 = 80
 def tank():
     #ul = ul + 0.1
     push()
@@ -173,6 +199,7 @@ def tank():
         image(tanka3,0,0)
     if hp2 < 1:
         image(tanka4,0,0)
+        winner = 1
     #ellipse(0,0,30,30) 
     pop() 
 def tank2():
@@ -196,6 +223,7 @@ def tank2():
         image(tanke3,0,0)
     if hp < 1:
         image(tanke4,0,0)
+        winner = 2
     #ellipse(0,0,30,30)
     pop()
 def keyReleased():
